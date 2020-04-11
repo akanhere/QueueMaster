@@ -8,10 +8,10 @@ namespace QueueMaster.Api.Interfaces
 {
     public interface IQueueRepository
     {
-        Task<IEnumerable<Queue>> GetQueuesByTenant(string tenantId);
-        Task<IEnumerable<Queue>> GetQueuesByEstablishment(string tenantId, string establishmentId);
+        Task<IEnumerable<Queue>> GetQueuesByTenant(int tenantId);
+        Task<IEnumerable<Queue>> GetQueuesByEstablishment(int tenantId, int establishmentId);
         Task AddQueue(Queue queue);
-        Task InsertQueueItem(string queueId, QueueItem queueItem);
-        Task RemoveQueueItem(string queueId, string queueItemId);
+        Task InsertQueueItem(int queueId, QueueItem queueItem);
+        Task RemoveQueueItem(int queueId, int queueItemId);
     }
 }

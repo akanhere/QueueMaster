@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,9 +9,13 @@ namespace QueueMaster.Api.Models
 {
     public class Queue
     {
-        public string TenantId { get; set; }
-        public string EstablishmentId { get; set; }
-        public string QueueId { get; set; }
+        [BsonId]
+        public ObjectId InternalId { get; set; }
+        public int TenantId { get; set; }
+        public int EstablishmentId { get; set; }
+
+        public string EstablishmentName { get; set; }
+        public int QueueId { get; set; }
         public string ManagerName { get; set; }
         public string ManagerContact { get; set; }
         public string QueueDescription { get; set; }

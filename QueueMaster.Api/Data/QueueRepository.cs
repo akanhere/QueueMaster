@@ -40,7 +40,7 @@ namespace QueueMaster.Api.Data
             return internalId;
         }
 
-        public async Task<IEnumerable<Queue>> GetQueuesByEstablishment(string tenantId, string establishmentId)
+        public async Task<IEnumerable<Queue>> GetQueuesByEstablishment(int tenantId, int establishmentId)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace QueueMaster.Api.Data
             }
         }
 
-        public async Task<IEnumerable<Queue>> GetQueuesByTenant(string tenantId)
+        public async Task<IEnumerable<Queue>> GetQueuesByTenant(int tenantId)
         {
             try
             {
@@ -64,13 +64,17 @@ namespace QueueMaster.Api.Data
             }
         }
 
-        public async Task InsertQueueItem(string queueId, QueueItem queueItem)
+        public async Task InsertQueueItem(int queueId, QueueItem queueItem)
         {
             try
             {
-                var queue = await _context.Queues.Find(q => q.QueueId == queueId).FirstOrDefaultAsync();
-                queue.QueuedItems.Add(queueItem);
+
+                var arrayFilter = Builders<Queue>.Filter.Eq("QueueId", queueId);
+                var arrayUpdate = Builders<Queue>.Update.AddToSet("QueuedItems", queueItem);
                 
+
+                await _context.Queues.UpdateOneAsync(arrayFilter, arrayUpdate);
+
             }
             catch (Exception ex)
             {
@@ -78,7 +82,7 @@ namespace QueueMaster.Api.Data
             }
         }
 
-        public Task RemoveQueueItem(string queueId, string queueItemId)
+        public Task RemoveQueueItem(int queueId, int queueItemId)
         {
             throw new NotImplementedException();
         }
