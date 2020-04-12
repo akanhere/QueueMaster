@@ -1,0 +1,77 @@
+﻿@model IEnumerable<QueueMaster.WebClient.Models.Queue>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TenantId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstablishmentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstablishmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManagerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManagerContact)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QueueDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QueueMaxItems)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AverageWaitTimePerUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenantId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstablishmentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstablishmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagerContact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QueueDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QueueMaxItems)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AverageWaitTimePerUser)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.QueueId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.QueueId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.QueueId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
