@@ -7,9 +7,9 @@ namespace QueueMaster.WebClient.Models
 {
     public class QueueItem
     {
-        public string QueueItemId { get; set; }
+        public int QueueItemId { get; set; }
         public string QueuedUserDisplayName { get; set; }
-        public string QueuedUserId { get; set; }
+        public int QueuedUserId { get; set; }
         public int QueueAtPosition { get; set; }
         public int QueueCurrentPosition { get; set; }
         public DateTime QueuedAtTime { get; set; }

@@ -1,6 +1,36 @@
-﻿@model QueueMaster.WebClient.Models.Queue
+﻿@model QueueMaster.WebClient.Models.QueueItem
+
 @{
     ViewData["Title"] = "Add Person to Queue";
 }
-<h1>@Model.QueueDescription</h1>
+<h1>Add Person to Queue</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddQueueItem">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="QueuedUserDisplayName" class="control-label"></label>
+                <input asp-for="QueuedUserDisplayName" class="form-control" />
+                <span asp-validation-for="QueuedUserDisplayName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QueueAtPosition" class="control-label"></label>
+                <input asp-for="QueueAtPosition" class="form-control" />
+                <span asp-validation-for="QueueAtPosition" class="text-danger"></span>
+            </div>
+            <input type="hidden" name="queueId" value="@ViewBag.QueueId"/>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Details">Back</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
 

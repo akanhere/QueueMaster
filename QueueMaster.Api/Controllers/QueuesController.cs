@@ -33,15 +33,21 @@ namespace QueueMaster.Api.Controllers
         }
 
         [HttpPost]
-        public void Post(Queue queue)
+        public async Task<ActionResult> Post(Queue queue)
         {
-            _repository.AddQueue(queue);
+           await _repository.AddQueue(queue);
+            return Ok();
         }
 
         [HttpPost("item/{id:int}")]
-        public void PostQueue(int id, [FromBody]QueueItem item)
+        public async Task<ActionResult> PostQueue(int id, [FromBody]QueueItem item)
         {
-            _repository.InsertQueueItem(id, item);
+            var returnVal = await _repository.InsertQueueItem(id, item);
+            if (returnVal >= 0)
+            {
+                return Ok(returnVal);
+            }
+            return Problem("Problem Encountered. Data may not have been stored.");
         }
 
     }

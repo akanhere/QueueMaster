@@ -41,8 +41,9 @@ namespace QueueMaster.WebClient.Controllers
 
 
 
-        public async Task<IActionResult> AddQueueItem()
+        public async Task<IActionResult> AddQueueItem(int id)
         {
+            ViewBag.QueueId = id;
             return View();
         }
 
@@ -50,7 +51,20 @@ namespace QueueMaster.WebClient.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddQueueItem(int queueId, QueueItem queueItem)
         {
-            return Content("Item Added");
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:44331/");
+                MediaTypeWithQualityHeaderValue contentType = new MediaTypeWithQualityHeaderValue("application/json");
+                client.DefaultRequestHeaders.Accept.Add(contentType);
+                var content = JsonConvert.SerializeObject(queueItem);
+                var buffer = System.Text.Encoding.UTF8.GetBytes(content);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                HttpResponseMessage response = client.PostAsync("/api/queues/item/" + queueId, byteContent).Result;
+                string stringData = response.Content.ReadAsStringAsync().Result;
+                //var data = JsonConvert.DeserializeObject<List<long>>(stringData);
+                return RedirectToAction("Details", "Queues", new { id = queueId });
+            }
         }
 
         // GET: Queues/Details/5
@@ -74,8 +88,8 @@ namespace QueueMaster.WebClient.Controllers
                 client.BaseAddress = new Uri("https://localhost:44331/");
                 MediaTypeWithQualityHeaderValue contentType = new MediaTypeWithQualityHeaderValue("application/json");
                 client.DefaultRequestHeaders.Accept.Add(contentType);
-                HttpResponseMessage response = client.GetAsync("/api/queues/1").Result;
-                string stringData = response.Content.ReadAsStringAsync().Result;
+                HttpResponseMessage response =await client.GetAsync("/api/queues/1");
+                string stringData = await response.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<List<Queue>>(stringData);
                 return View(data.FirstOrDefault());
             }

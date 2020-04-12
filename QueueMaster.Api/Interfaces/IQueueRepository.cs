@@ -12,7 +12,7 @@ namespace QueueMaster.Api.Interfaces
         Task<IEnumerable<Queue>> GetQueueById(int tenantId);
         Task<IEnumerable<Queue>> GetQueuesByEstablishment(int tenantId, int establishmentId);
         Task AddQueue(Queue queue);
-        Task InsertQueueItem(int queueId, QueueItem queueItem);
+        Task<int> InsertQueueItem(int queueId, QueueItem queueItem);
         Task RemoveQueueItem(int queueId, int queueItemId);
     }
 }

@@ -26,7 +26,7 @@ namespace QueueMaster.Api.Data
             {
                 await _context.Queues.InsertOneAsync(queue);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -76,16 +76,29 @@ namespace QueueMaster.Api.Data
             }
         }
 
-        public async Task InsertQueueItem(int queueId, QueueItem queueItem)
+        public async Task<int> InsertQueueItem(int queueId, QueueItem queueItem)
         {
             try
             {
+                var items = _context.Queues.Find(b => b.QueueId == queueId).ToList();
+                var nextId = items.SelectMany(q => q.QueuedItems).Any() ? (items.SelectMany(q => q.QueuedItems).Max(m => m.QueueItemId) + 1) : 1;
+
+
+                queueItem.QueueItemId = nextId;
+                queueItem.QueuedAtTime = DateTime.UtcNow;
+                queueItem.StatusDescription = new String("Queued");
 
                 var arrayFilter = Builders<Queue>.Filter.Eq("QueueId", queueId);
                 var arrayUpdate = Builders<Queue>.Update.AddToSet("QueuedItems", queueItem);
-                
 
-                await _context.Queues.UpdateOneAsync(arrayFilter, arrayUpdate);
+
+
+                UpdateResult x = await _context.Queues.UpdateOneAsync(arrayFilter, arrayUpdate);
+                if (x.IsAcknowledged)
+                {
+                    return Convert.ToInt32(x.ModifiedCount);
+                }
+                return -1;
 
             }
             catch (Exception ex)
