@@ -64,6 +64,18 @@ namespace QueueMaster.Api.Data
             }
         }
 
+        public async Task<IEnumerable<Queue>> GetQueueById(int queueId)
+        {
+            try
+            {
+                return await _context.Queues.Find(q => q.QueueId == queueId).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task InsertQueueItem(int queueId, QueueItem queueItem)
         {
             try

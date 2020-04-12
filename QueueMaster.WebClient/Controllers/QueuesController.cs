@@ -32,11 +32,25 @@ namespace QueueMaster.WebClient.Controllers
                 client.BaseAddress = new Uri("https://localhost:44331/");
                 MediaTypeWithQualityHeaderValue contentType = new MediaTypeWithQualityHeaderValue("application/json");
                 client.DefaultRequestHeaders.Accept.Add(contentType);
-                HttpResponseMessage response = client.GetAsync("/api/queues/1").Result;
+                HttpResponseMessage response = client.GetAsync("/api/queues/tenant/1").Result;
                 string stringData = response.Content.ReadAsStringAsync().Result;
                 List<Queue> data = JsonConvert.DeserializeObject<List<Queue>>(stringData);
                 return View(data);
             }
+        }
+
+
+
+        public async Task<IActionResult> AddQueueItem()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddQueueItem(int queueId, QueueItem queueItem)
+        {
+            return Content("Item Added");
         }
 
         // GET: Queues/Details/5
@@ -47,14 +61,28 @@ namespace QueueMaster.WebClient.Controllers
                 return NotFound();
             }
 
-            var queue = await _context.Queue
-                .FirstOrDefaultAsync(m => m.QueueId == id);
-            if (queue == null)
-            {
-                return NotFound();
-            }
+            //var queue = await _context.Queue
+            //    .FirstOrDefaultAsync(m => m.QueueId == id);
+            //if (queue == null)
+            //{
+            //    return NotFound();
+            //}
+            //return View(queue);
 
-            return View(queue);
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:44331/");
+                MediaTypeWithQualityHeaderValue contentType = new MediaTypeWithQualityHeaderValue("application/json");
+                client.DefaultRequestHeaders.Accept.Add(contentType);
+                HttpResponseMessage response = client.GetAsync("/api/queues/1").Result;
+                string stringData = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<List<Queue>>(stringData);
+                return View(data.FirstOrDefault());
+            }
+        }
+        public IActionResult ItemEdit(int? id)
+        {
+            return Content("Item Edited" + id);
         }
 
         // GET: Queues/Create

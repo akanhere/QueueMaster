@@ -12,12 +12,12 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.TenantId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EstablishmentId)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.EstablishmentName)
             </th>
@@ -30,24 +30,24 @@
             <th>
                 @Html.DisplayNameFor(model => model.QueueDescription)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.QueueMaxItems)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AverageWaitTimePerUser)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.TenantId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EstablishmentId)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.EstablishmentName)
             </td>
@@ -60,12 +60,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.QueueDescription)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.QueueMaxItems)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AverageWaitTimePerUser)
-            </td>
+            </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.QueueId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.QueueId">Details</a> |

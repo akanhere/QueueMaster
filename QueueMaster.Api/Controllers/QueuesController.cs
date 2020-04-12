@@ -20,10 +20,16 @@ namespace QueueMaster.Api.Controllers
             _repository = repository;
         }
 
-        [HttpGet("{tenantId}")]
-        public async Task<IEnumerable<Queue>> Get(int tenantId)
+        [HttpGet("tenant/{tenantId}")]
+        public async Task<IEnumerable<Queue>> GetByTenantId(int tenantId)
         {
             return await _repository.GetQueuesByTenant(tenantId);
+        }
+
+        [HttpGet("{queueId}")]
+        public async Task<IEnumerable<Queue>> Get(int queueId)
+        {
+            return await _repository.GetQueueById(queueId);
         }
 
         [HttpPost]
