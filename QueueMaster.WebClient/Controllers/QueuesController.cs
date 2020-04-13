@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using QueueMaster.WebClient.Models;
 
 namespace QueueMaster.WebClient.Controllers
 {
+    [Authorize]
     public class QueuesController : Controller
     {
         private readonly QueueContext _context;
